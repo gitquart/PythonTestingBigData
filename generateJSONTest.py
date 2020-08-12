@@ -39,17 +39,17 @@ def cassandraBDProcess():
     count=0
     statement = SimpleStatement(querySt, fetch_size=1000)
     for row in session.execute(statement):
-        json_thesis['id_thesis']=str(row[0])
+        json_thesis['id_thesis']=row[0]
         json_thesis['book_number']=str(row[1])
         json_thesis['dt_publication_date']=str(row[2])
         json_thesis['heading']=str(row[3])
         json_thesis['instance']=str(row[4])
         json_thesis['jurisprudence_type']=str(row[5])
-        json_thesis['lst_precedents']=str(row[6])
-        json_thesis['multiple_subjects']=str(row[7])
+        json_thesis['lst_precedents'].append(row[6])
+        json_thesis['multiple_subjects']=row[7]
         json_thesis['page']=str(row[8])
         json_thesis['period']=str(row[9])
-        json_thesis['period_number']=str(row[10])
+        json_thesis['period_number']=row[10]
         json_thesis['publication']=str(row[11])
         json_thesis['publication_date']=str(row[12])
         json_thesis['source']=str(row[13])
