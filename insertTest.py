@@ -16,7 +16,7 @@ def main():
 def cassandraBDProcess():
 
     
-    
+    print('START...')
     for i in range(1,200001):
         #Connect to Cassandra
         objCC=CassandraConnection()
@@ -38,7 +38,7 @@ def cassandraBDProcess():
         json_thesis=json.dumps(json_thesis)
         insertSt="INSERT INTO test.tbthesis JSON '"+json_thesis+"';" 
         session.execute(insertSt)
-        print("Records",str(i))
+        #print("Records",str(i))
 
 
         cluster.shutdown()
