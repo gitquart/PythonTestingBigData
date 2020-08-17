@@ -3,6 +3,7 @@ import uuid
 from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
 from cassandra.query import SimpleStatement
+from cassandra.query import BatchStatement
 import os
 import time
 
@@ -17,6 +18,8 @@ def cassandraBDProcess():
 
     
     print('START...')
+    
+
     for i in range(1,200001):
         #Connect to Cassandra
         objCC=CassandraConnection()
@@ -30,18 +33,25 @@ def cassandraBDProcess():
         
         session = cluster.connect()
         session.default_timeout=20
-  
-        with open('demo.json',encoding='utf-8') as f:
-            json_thesis = json.load(f)
 
-        json_thesis['guid_thesis']=str(uuid.uuid4())
-        json_thesis=json.dumps(json_thesis)
-        insertSt="INSERT INTO test.tbthesis JSON '"+json_thesis+"';" 
-        session.execute(insertSt)
-        #print("Records",str(i))
+        #Start of the batch
+        batchCounter=0
+        batch = BatchStatement()
+        while batchCounter<100: 
+            with open('demo.json',encoding='utf-8') as f:
+                json_thesis = json.load(f)   
+            json_thesis['guid_thesis']=str(uuid.uuid4())
+            json_thesis=json.dumps(json_thesis)
+            insertSt="INSERT INTO test.tbthesis JSON '"+json_thesis+"';" 
+            batch.add(SimpleStatement(insertSt))
+            batchCounter=batchCounter+1
+            print("Record",str(batchCounter))
 
+        session.execute(batch)
+        print("DONE")    
 
         cluster.shutdown()
+        
                                 
 
 

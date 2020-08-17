@@ -30,6 +30,7 @@ def cassandraBDProcess():
     count=0
     row=''
     statement = SimpleStatement(querySt, fetch_size=1000)
+    
     for row in session.execute(statement):
         count=count+1
         
