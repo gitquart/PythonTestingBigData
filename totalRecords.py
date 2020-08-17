@@ -25,7 +25,7 @@ def cassandraBDProcess():
     session = cluster.connect()
     session.default_timeout=70
   
-    querySt="select * from test.tbthesis where period_number>4 ALLOW FILTERING "   
+    querySt="select id_thesis from test.tbthesis where period_number>4 ALLOW FILTERING "   
         
     count=0
     row=''
