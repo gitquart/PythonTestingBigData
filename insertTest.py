@@ -20,7 +20,7 @@ def cassandraBDProcess():
     print('START...')
     
 
-    for i in range(1,200001):
+    for i in range(1,376):
         #Connect to Cassandra
         objCC=CassandraConnection()
         cloud_config= {
@@ -37,7 +37,7 @@ def cassandraBDProcess():
         #Start of the batch
         batchCounter=0
         batch = BatchStatement()
-        while batchCounter<100: 
+        while batchCounter<=100: 
             with open('demo.json',encoding='utf-8') as f:
                 json_thesis = json.load(f)   
             json_thesis['guid_thesis']=str(uuid.uuid4())
@@ -45,10 +45,11 @@ def cassandraBDProcess():
             insertSt="INSERT INTO test.tbthesis JSON '"+json_thesis+"';" 
             batch.add(SimpleStatement(insertSt))
             batchCounter=batchCounter+1
-            print("Record",str(batchCounter))
+            
 
         session.execute(batch)
-        print("DONE")    
+        print("Batch:",str(i)) 
+        time.sleep(10)   
 
         cluster.shutdown()
         
