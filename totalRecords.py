@@ -2,6 +2,7 @@ from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
 from cassandra.query import SimpleStatement
 import os
+import datetime
 
 #uuid.uuid4
 pathToHere=os.getcwd()
@@ -30,12 +31,17 @@ def cassandraBDProcess():
     count=0
     row=''
     statement = SimpleStatement(querySt, fetch_size=1000)
+    now = datetime.datetime.now()
+    print ("Start time : ")
+    print (now.strftime("%H:%M:%S"))
     
     for row in session.execute(statement):
         count=count+1
         
     print('Count',str(count)) 
        
+    print ("End time: ")
+    print (now.strftime("%H:%M:%S"))   
 
     cluster.shutdown() 
                                 
