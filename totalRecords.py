@@ -26,22 +26,22 @@ def cassandraBDProcess():
     session = cluster.connect()
     session.default_timeout=70
   
-    querySt="select id_thesis from test.tbthesis where period_number>4 ALLOW FILTERING "   
+    querySt="select * from test.tbthesis where period_number>4 ALLOW FILTERING "   
         
     count=0
     row=''
     statement = SimpleStatement(querySt, fetch_size=1000)
     now = datetime.datetime.now()
-    print ("Start time : ")
-    print (now.strftime("%H:%M:%S"))
+    print ("Start time: ",now.strftime("%H:%M:%S"))
+    
     
     for row in session.execute(statement):
         count=count+1
         
-    print('Count',str(count)) 
-       
-    print ("End time: ")
-    print (now.strftime("%H:%M:%S"))   
+    print('Count: ',str(count))  
+
+    now = datetime.datetime.now()
+    print ("End time :",now.strftime("%H:%M:%S"))
 
     cluster.shutdown() 
                                 
